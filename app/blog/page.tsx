@@ -2,39 +2,36 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import Link from "next/link";
-import ReactMarkdown from "react-markdown";
+import BlogClient from "./BlogClient"; // Client Component
 
-export default function Blog() {
-  const postsDirectory = path.join(process.cwd(), "public/blog");
-  const posts = fs.readdirSync(postsDirectory)
-    .filter((filename) => filename.endsWith(".md"))
-    .map((filename) => {
-      const filePath = path.join(postsDirectory, filename);
-      const fileContents = fs.readFileSync(filePath, "utf8");
+export default function BlogPage() {
+  // 1) Read the blog directory
+  const blogDir = path.join(process.cwd(), "public/blog");
+  const filenames = fs.readdirSync(blogDir);
+
+  // 2) Parse each .md file
+  const posts = filenames
+    .filter((file) => file.endsWith(".md"))
+    .map((file) => {
+      const filePath = path.join(blogDir, file);
+      const fileContents = fs.readFileSync(filePath, "utf-8");
       const { data, content } = matter(fileContents);
+
       return {
-        slug: filename.replace(".md", ""),
-        title: data.title,
-        date: data.date,
-        author: data.author || "Unknown",
-        excerpt: content.split(" ").slice(0, 20).join(" ") + "...",
+        slug: file.replace(".md", ""),
+        title: data.title || "Untitled",
+        date: data.date || "Unknown Date",
+        author: data.author || "Unknown Author",
         content,
       };
     })
+    // Optional: sort by descending date
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+  // 3) Pass the data to the Client Component
   return (
-    <section className="blog">
-      <h1>Blog</h1>
-      <div className="blog-cards">
-        {posts.map(({ slug, title, date, author, excerpt }) => (
-          <div key={slug} className="blog-card">
-            <h2><Link href={`/blog/${slug}`}>{title}</Link> <span>({date}) - {author}</span></h2>
-            <ReactMarkdown>{excerpt}</ReactMarkdown>
-          </div>
-        ))}
-      </div>
+    <section style={{ padding: "2rem 1rem" }}>
+      <BlogClient posts={posts} />
     </section>
   );
 }
