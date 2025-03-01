@@ -1,14 +1,6 @@
-/**
- * layout.tsx
- * ----------
- * - Wraps the app in a ThemeProvider.
- * - Loads GlobalStyles.
- * - Includes the VerticalNavbar with the theme toggle.
- */
-
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './globalStyles';
 import { defaultTheme, altTheme } from './themes';
@@ -20,7 +12,23 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
   const [isAltTheme, setIsAltTheme] = useState(false);
-  const handleThemeToggle = () => setIsAltTheme((prev) => !prev);
+
+  // ✅ Ensure the theme persists across refreshes
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme) {
+      setIsAltTheme(storedTheme === 'alt');
+    }
+  }, []);
+
+  const handleThemeToggle = () => {
+    setIsAltTheme((prev) => {
+      const newTheme = !prev;
+      localStorage.setItem('theme', newTheme ? 'alt' : 'default');
+      return newTheme;
+    });
+  };
+
   const activeTheme = isAltTheme ? altTheme : defaultTheme;
 
   return (
@@ -28,6 +36,7 @@ export default function Layout({ children }: LayoutProps) {
       <body>
         <ThemeProvider theme={activeTheme}>
           <GlobalStyles />
+          {/* ✅ Pass toggleTheme to VerticalNavbar */}
           <VerticalNavbar toggleTheme={handleThemeToggle} />
           {children}
         </ThemeProvider>

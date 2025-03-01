@@ -14,7 +14,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 type VerticalNavbarProps = {
-  toggleTheme: () => void;
+  toggleTheme?: () => void;
 };
 
 const Sidebar = styled.div<{ $isOpen: boolean }>`
@@ -116,7 +116,9 @@ export default function VerticalNavbar({ toggleTheme }: VerticalNavbarProps) {
             <Link href="/contact">Contact</Link>
           </NavItem>
         </NavList>
-        <ToggleButton onClick={toggleTheme}>Toggle Theme</ToggleButton>
+        <ToggleButton onClick={toggleTheme ? toggleTheme : () => {}}>
+           Toggle Theme
+        </ToggleButton>
       </Sidebar>
       <MonogramButton onClick={toggleSidebar} aria-label="Toggle Menu" $isOpen={isOpen}>
         <Image src="/monogram.png" alt="Toggle Menu" width={40} height={40} />
