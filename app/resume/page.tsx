@@ -9,7 +9,10 @@
 
 import styled from 'styled-components';
 import BeerList from "../components/BeerList";
-import TravelMap from "../components/TravelMap";
+import dynamic from 'next/dynamic';
+
+// Dynamically import TravelMap to run only on the client
+const TravelMap = dynamic(() => import("../components/TravelMap"), { ssr: false });
 
 const ResumeCard = styled.section`
   display: flex;
