@@ -1,24 +1,23 @@
 /**
  * Landing.tsx
  * -----------
- * - Styled as a Business Card.
- * - Uses theme-based gradient for background.
- * - Centers the monogram, name, and contact cards.
- * - Now includes an Instagram LinkCard in the CardRow.
+ * - Adjusts layout dynamically for mobile using `useIsMobile()`.
+ * - Uses a flexbox grid for contact cards (switches to vertical on mobile).
  */
 
 'use client';
 
 import styled from 'styled-components';
 import Image from 'next/image';
+import useIsMobile from '../hooks/useIsMobile';
 
-const CardContainer = styled.div`
+const CardContainer = styled.div<{ $isMobile: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 90vw;
-  height: 90vh;
+  width: ${({ $isMobile }) => ($isMobile ? '95vw' : '90vw')};
+  height: ${({ $isMobile }) => ($isMobile ? 'auto' : '85vh')};
   background: linear-gradient(
     135deg,
     ${({ theme }) => theme.colors.secondaryDark},
@@ -29,23 +28,25 @@ const CardContainer = styled.div`
   text-align: center;
   color: ${({ theme }) => theme.colors.primary};
   margin: auto;
-  margin-top: 5vh;
+  padding: ${({ $isMobile }) => ($isMobile ? '2rem 1rem' : '3rem')};
   position: relative;
 `;
 
-const NameText = styled.h1`
-  font-size: 2.5rem;
+const NameText = styled.h1<{ $isMobile: boolean }>`
+  font-size: ${({ $isMobile }) => ($isMobile ? '1.8rem' : '2.5rem')};
   font-weight: 700;
   margin-top: 1.5rem;
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-const CardRow = styled.div`
+const CardRow = styled.div<{ $isMobile: boolean }>`
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: center;
   margin-top: 2rem;
+  flex-direction: ${({ $isMobile }) => ($isMobile ? 'column' : 'row')}; /* Stack on mobile */
+  align-items: ${({ $isMobile }) => ($isMobile ? 'center' : 'unset')};
 `;
 
 const LinkCard = styled.a`
@@ -81,14 +82,16 @@ const PseudoText = styled.span`
 `;
 
 export default function Landing() {
+  const isMobile = useIsMobile();
+
   return (
-    <CardContainer>
+    <CardContainer $isMobile={isMobile}>
       {/* Monogram & Name */}
-      <Image src="/monogram.png" alt="Monogram Logo" width={120} height={120} priority />
-      <NameText>Brandon Dunegan</NameText>
+      <Image src="/monogram.png" alt="Monogram Logo" width={isMobile ? 80 : 120} height={isMobile ? 80 : 120} priority />
+      <NameText $isMobile={isMobile}>Brandon Dunegan</NameText>
 
       {/* Contact Links */}
-      <CardRow>
+      <CardRow $isMobile={isMobile}>
         <LinkCard href="mailto:bidunegan@gmail.com" aria-label="Email">
           <Icon src="/icons/email.png" alt="Mail Icon" width={32} height={32} />
           <PseudoText>bidunegan@gmail.com</PseudoText>
@@ -119,8 +122,7 @@ export default function Landing() {
           <PseudoText>GitHub</PseudoText>
         </LinkCard>
 
-        {/* New Instagram Card */}
-        <LinkCard href="https://www.instagram.com/brandondunegan/" target="_blank" rel="noreferrer" aria-label="Instagram">
+        <LinkCard href="https://www.instagram.com/YOUR_INSTAGRAM" target="_blank" rel="noreferrer" aria-label="Instagram">
           <Icon src="/icons/instagram.png" alt="Instagram Icon" width={32} height={32} />
           <PseudoText>Instagram</PseudoText>
         </LinkCard>

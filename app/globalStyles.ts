@@ -1,7 +1,8 @@
 /**
  * globalStyles.ts
- * ---------------
- * Provides a global reset and references the theme for backgrounds/colors.
+ * -------------------
+ * - Adds mobile-friendly styles.
+ * - Ensures text, buttons, and layouts are fully responsive.
  */
 
 import { createGlobalStyle } from 'styled-components';
@@ -16,7 +17,7 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  /* Global body styling references the theme for background & text color */
+  /* Global body styling */
   html, body {
     width: 100%;
     height: 100%;
@@ -30,15 +31,31 @@ const GlobalStyles = createGlobalStyle`
     overflow-x: hidden;
   }
 
-  /* Remove default list styles */
-  ul, li {
-    list-style: none;
+  /* Responsive Typography */
+  h1 {
+    font-size: 2.2rem;
   }
 
-  /* Remove default link styles */
-  a {
-    text-decoration: none;
-    color: inherit;
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  p, button, input {
+    font-size: 1rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p, button, input {
+      font-size: 0.9rem;
+    }
   }
 `;
 
