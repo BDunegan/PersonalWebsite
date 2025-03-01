@@ -8,6 +8,7 @@
 'use client';
 
 import styled from 'styled-components';
+import BeerList from "../components/BeerList";
 
 const ResumeCard = styled.section`
   display: flex;
@@ -40,9 +41,12 @@ const ResumeViewer = styled.iframe`
 
 export default function Resume() {
   return (
+    <>
     <ResumeCard>
       {/* Resume PDF View */}
       <ResumeViewer src="/resume.pdf" />
     </ResumeCard>
+    <BeerList />
+    </>
   );
 }
