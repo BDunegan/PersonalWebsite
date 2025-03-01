@@ -1,51 +1,61 @@
 // app/contact/page.tsx
 "use client";
 
+/**
+ * Contact
+ * -------
+ * Contains a contact form for emailing via EmailJS. 
+ * Uses responsive design for the form layout and button sizes.
+ */
+
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import styled from "styled-components";
 
 const ContactContainer = styled.section`
-  padding: 2rem 1rem;
+  padding: ${({ theme }) => theme.spacing(8)} ${({ theme }) => theme.spacing(4)};
   max-width: 800px;
   margin: 0 auto;
+  background-color: ${({ theme }) => theme.colors.background};
 
   h1 {
-    margin-bottom: 1rem;
-  }
+    margin-bottom: ${({ theme }) => theme.spacing(4)};
+    font-size: 1.5rem;
 
-  p {
-    margin-top: 0.5rem;
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      font-size: 2rem;
+    }
   }
 `;
 
 const ContactFormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: ${({ theme }) => theme.spacing(4)};
 
   input,
   textarea {
     width: 100%;
-    padding: 0.75rem;
+    padding: ${({ theme }) => theme.spacing(3)};
     font-size: 1rem;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: ${({ theme }) => theme.borderRadius};
   }
 
   button {
     align-self: flex-start;
     background-color: ${({ theme }) => theme.colors.primary};
-    color: #fff;
+    color: ${({ theme }) => theme.colors.textInverse};
     border: none;
-    padding: 0.75rem 1.25rem;
-    border-radius: 4px;
+    padding: ${({ theme }) => theme.spacing(3)} ${({ theme }) => theme.spacing(5)};
+    border-radius: ${({ theme }) => theme.borderRadius};
     font-size: 1rem;
     cursor: pointer;
+    box-shadow: ${({ theme }) => theme.boxShadow};
     transition: background-color 0.2s ease;
 
     &:hover {
-      background-color: #4338ca;
+      background-color: ${({ theme }) => theme.colors.secondary};
     }
   }
 `;
@@ -81,10 +91,10 @@ export default function Contact() {
       <ContactFormContainer ref={form} onSubmit={sendEmail}>
         <input type="text" name="from_name" placeholder="Your Name" required />
         <input type="email" name="email" placeholder="Your Email" required />
-        <textarea name="message" placeholder="Your Message" required />
+        <textarea name="message" placeholder="Your Message" rows={6} required />
         <button type="submit">Send</button>
       </ContactFormContainer>
-      {message && <p>{message}</p>}
+      {message && <p style={{ marginTop: "1rem" }}>{message}</p>}
     </ContactContainer>
   );
 }

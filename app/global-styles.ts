@@ -1,24 +1,28 @@
 // app/global-styles.ts
+"use client";
+
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
-  /* Reset / base rules */
-  *, *::before, *::after {
-    margin: 0; 
-    padding: 0; 
+  /* Remove any @import lines here */
+
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
 
   html, body {
     height: 100%;
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    color: #333;
-    background-color: #f9fafb;
+    /* Fallback system fonts until you load Roboto, etc. externally */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+                 Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.text};
     line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
   }
 
   a {
@@ -26,21 +30,12 @@ export const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
-  /* Headings (responsive sizing as an example) */
-  h1 {
-    font-size: 2.5rem;
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    margin: 1rem 0 0.5rem;
+  }
+
+  p {
     margin-bottom: 1rem;
-  }
-  h2 {
-    font-size: 2rem;
-    margin-bottom: 0.75rem;
-  }
-  @media (max-width: 768px) {
-    h1 {
-      font-size: 2rem;
-    }
-    h2 {
-      font-size: 1.75rem;
-    }
   }
 `;

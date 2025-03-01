@@ -1,4 +1,12 @@
+// app/blog/BlogClient.tsx
 "use client";
+
+/**
+ * BlogClient
+ * ----------
+ * Displays a list of blog posts in responsive card layouts.
+ * Uses ReactMarkdown for rendering markdown content.
+ */
 
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
@@ -15,36 +23,46 @@ type BlogClientProps = {
   posts: Post[];
 };
 
-/** 
- * Main container for the blog page. 
- * We keep a max-width for better readability on larger screens.
- */
 const BlogContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
+  padding: ${({ theme }) => theme.spacing(8)} ${({ theme }) => theme.spacing(4)};
+  background-color: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.text};
+
+  h1 {
+    margin-bottom: ${({ theme }) => theme.spacing(6)};
+    font-size: 1.75rem;
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      font-size: 2rem;
+    }
+  }
 `;
 
-/**
- * A simple vertical layout for posts, 
- * stacking each post card on top of the other.
- */
 const BlogList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* spacing between posts */
+  gap: ${({ theme }) => theme.spacing(6)};
 `;
 
-/**
- * A card-style container for each blog post.
- */
 const BlogCard = styled.article`
-  background-color: #fff;
-  border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  padding: 1.5rem;
+  background-color: ${({ theme }) => theme.colors.surface};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  padding: ${({ theme }) => theme.spacing(4)};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    padding: ${({ theme }) => theme.spacing(6)};
+  }
 
   h2 {
     margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      font-size: 1.5rem;
+    }
   }
 
   .post-meta {

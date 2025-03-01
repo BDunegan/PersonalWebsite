@@ -1,13 +1,29 @@
 // app/about/page.tsx
+"use client";
+
+/**
+ * About
+ * -----
+ * Displays background info. Uses breakpoints to maintain comfortable 
+ * text sizing and layout across mobile and desktop.
+ */
+
 import styled from "styled-components";
 
 const AboutContainer = styled.section`
-  padding: 2rem 1rem;
+  padding: ${({ theme }) => theme.spacing(8)} ${({ theme }) => theme.spacing(4)};
   max-width: 800px;
   margin: 0 auto;
+  background-color: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.text};
 
   h1 {
-    margin-bottom: 1rem;
+    margin-bottom: ${({ theme }) => theme.spacing(4)};
+    font-size: 1.5rem;
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      font-size: 2rem;
+    }
   }
 `;
 

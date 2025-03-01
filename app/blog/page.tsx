@@ -2,14 +2,19 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import BlogClient from "./BlogClient"; // Client Component
+import BlogClient from "./BlogClient";
+
+/**
+ * BlogPage
+ * --------
+ * Reads local .md files, extracts metadata, sorts by date, 
+ * then passes data to BlogClient for rendering.
+ */
 
 export default function BlogPage() {
-  // 1) Read the blog directory
   const blogDir = path.join(process.cwd(), "public/blog");
   const filenames = fs.readdirSync(blogDir);
 
-  // 2) Parse each .md file
   const posts = filenames
     .filter((file) => file.endsWith(".md"))
     .map((file) => {
@@ -25,13 +30,7 @@ export default function BlogPage() {
         content,
       };
     })
-    // Optional: sort by descending date
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  // 3) Pass the data to the Client Component
-  return (
-    <section style={{ padding: "2rem 1rem" }}>
-      <BlogClient posts={posts} />
-    </section>
-  );
+  return <BlogClient posts={posts} />;
 }

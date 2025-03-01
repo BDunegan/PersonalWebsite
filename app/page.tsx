@@ -2,9 +2,11 @@
 "use client";
 
 /**
- * This page ensures the user sees only the Landing (full screen) on initial load. 
- * The HomeNavbar is placed "below" the viewport. Once the user scrolls even slightly, 
- * the navbar snaps to the top and remains pinned.
+ * Home (Landing) Page
+ * -------------------
+ * Displays a full-screen landing section, 
+ * a navbar snapping after scroll, and extra content.
+ * Uses breakpoints to adjust heading font sizes for smaller screens.
  */
 
 import styled from "styled-components";
@@ -16,64 +18,55 @@ const HomeWrapper = styled.div`
   flex-direction: column;
 `;
 
-/**
- * The Landing section occupies the entire viewport (100vh) so 
- * it's all that is seen initially.
- */
 const LandingSection = styled.section`
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #dbeafe 0%,rgb(42, 73, 175) 100%);
+  color: ${({ theme }) => theme.colors.textInverse};
+  text-align: center;
+  padding: 0;
+
+  h1 {
+    font-size: 2rem;
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      font-size: 2.5rem;
+    }
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      font-size: 3rem;
+    }
+  }
 `;
 
-/**
- * SnapNavWrapper:
- * - position: sticky
- * - top: calc(100vh + 1px);
- *
- * At page load, the navbar sits 1px below the bottom of the screen 
- * (completely out of view). The moment you scroll that 1px, 
- * the sticky positioning snaps it to top: 0.
- */
 const SnapNavWrapper = styled.div`
   position: sticky;
   top: 0;
   z-index: 999;
-  background: #fff; /* Ensure a solid background when it snaps atop content */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: ${({ theme }) => theme.colors.surface};
+  box-shadow: ${({ theme }) => theme.boxShadow};
 `;
 
-/**
- * Additional content so there's room to scroll 
- * and observe the snapping behavior.
- */
 const ContentSection = styled.section`
   min-height: 150vh;
-  background: #f9fafb;
-  padding: 2rem 1rem;
+  background: ${({ theme }) => theme.colors.background};
+  padding: ${({ theme }) => theme.spacing(8)} ${({ theme }) => theme.spacing(4)};
 `;
 
 export default function Home() {
   return (
     <HomeWrapper>
-      {/* Full-screen Landing, filling initial viewport */}
       <LandingSection>
-        <h1>Welcome to My Site</h1>
+        <Landing/>
       </LandingSection>
 
-      {/* Navbar initially below the viewport, snapping to top after a tiny scroll */}
       <SnapNavWrapper>
         <HomeNavbar />
       </SnapNavWrapper>
 
-      {/* Extra content to allow scrolling */}
       <ContentSection>
         <h2>Page Content</h2>
         <p>
-          As soon as you scroll past the Landing by 1px, the navbar
-          appears at the top of the screen and remains pinned.
+          Scroll down to see the navbar snap to the top and remain pinned.
         </p>
       </ContentSection>
     </HomeWrapper>
