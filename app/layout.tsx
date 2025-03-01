@@ -1,62 +1,46 @@
-// app/layout.tsx
-"use client";
-
 /**
- * Layout
- * ------
- * Wraps all pages with a ThemeProvider and GlobalStyle. 
- * Provides the universal theme (color palette, breakpoints, etc.)
- * and conditionally displays StickyNavbar for non-home routes.
+ * layout.tsx
+ * ----------
+ * - No longer wraps content in a styled container.
+ * - Each individual page handles its own layout.
+ * - Still provides global styles and the VerticalNavbar.
  */
 
-import { ReactNode } from "react";
-import { usePathname } from "next/navigation";
-import { ThemeProvider } from "styled-components";
-import { GlobalStyle } from "./global-styles";
-import StickyNavbar from "./components/StickyNavbar";
+'use client';
+
+import { ReactNode } from 'react';
+import { ThemeProvider } from 'styled-components';
+import GlobalStyles from './globalStyles';
+import VerticalNavbar from './components/VerticalNavbar';
 
 const theme = {
   colors: {
-    primary: "#4285F4",      // Google-style bright primary
-    secondary: "#DB4437",    // Complementary accent (red)
-    background: "#F9FAFB",   // Light background
-    surface: "#FFFFFF",      // Surface color for cards, navbars, etc.
-    text: "#333333",         // Default text color
-    textInverse: "#FFFFFF",  // Text color on dark backgrounds
+    primary: '#F0EAD6',     // Egg-shell
+    secondary: '#9B59B6',   // Lighter purple
+    text: '#F0EAD6',        // Egg-shell text
+    textInverse: '#2c2c2c', // Dark text when needed
   },
-  spacing: (factor: number) => `${0.25 * factor}rem`, // e.g. spacing(8) -> '2rem'
-  borderRadius: "6px",
-  boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-  /** 
-   * Common breakpoints: 
-   *  sm: up to 480px (mobile), 
-   *  md: up to 768px (small tablet), 
-   *  lg: up to 1024px (desktop).
-   */
+  spacing: (factor: number) => `${0.25 * factor}rem`,
+  borderRadius: '12px',
+  boxShadow: '0px 5px 15px rgba(0, 0, 0, 0.5)',
   breakpoints: {
-    sm: "480px",
-    md: "768px",
-    lg: "1024px",
+    sm: '480px',
+    md: '768px',
+    lg: '1024px',
   },
 };
-
-
 
 type LayoutProps = {
   children: ReactNode;
 };
 
 export default function Layout({ children }: LayoutProps) {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-
   return (
     <html lang="en">
       <body>
         <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          {/* Show a sticky navbar if not on the home page */}
-          {!isHome && <StickyNavbar />}
+          <GlobalStyles />
+          <VerticalNavbar />
           {children}
         </ThemeProvider>
       </body>

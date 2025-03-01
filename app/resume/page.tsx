@@ -1,51 +1,45 @@
-// app/resume/page.tsx
-"use client";
-
 /**
- * Resume
- * ------
- * Displays a PDF resume in an embed. Sections for Projects and Skills 
- * are spaced out with theme spacing, while also adjusting embed height for mobile.
+ * page.tsx (Resume Page)
+ * -------------------
+ * - Uses a **Content Card** design with the same gradient as Contact & Blog.
+ * - Embeds the full resume as a PDF.
+ * - No "My Resume" title for cleaner flow.
+ * - Fully responsive and visually cohesive.
  */
 
-import styled from "styled-components";
+'use client';
 
-const ResumeContainer = styled.section`
-  padding: ${({ theme }) => theme.spacing(8)} ${({ theme }) => theme.spacing(4)};
-  max-width: 1000px;
-  margin: 0 auto;
-  background-color: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.text};
+import styled from 'styled-components';
 
-  embed {
-    width: 100%;
-    height: 60vh; /* Smaller by default for mobile */
+const ResumeCard = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90vw;
+  max-width: 900px;
+  padding: 3rem;
+  background: linear-gradient(135deg, #8e44ad, #9B59B6); /* Same Gradient as Contact */
+  border-radius: 20px;
+  box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.5);
+  color: ${({ theme }) => theme.colors.primary}; /* Eggshell */
+  margin: 10vh auto;
+  font-family: 'Inter', sans-serif;
+`;
 
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      height: 80vh; /* Taller for desktops/tablets */
-    }
-  }
-
-  .projects,
-  .skills {
-    margin-top: ${({ theme }) => theme.spacing(8)};
-  }
+const ResumeViewer = styled.embed`
+  width: 100%;
+  height: 120vh;
+  border-radius: 12px;
+  background: #F0EAD6; /* Eggshell Background */
+  box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.2);
 `;
 
 export default function Resume() {
   return (
-    <ResumeContainer>
-      <h1>Resume</h1>
-      <embed src="/resume.pdf" type="application/pdf" />
-
-      <div className="projects">
-        <h2>Projects</h2>
-        <p>List of projects goes here.</p>
-      </div>
-      <div className="skills">
-        <h2>Skills</h2>
-        <p>List of skills goes here.</p>
-      </div>
-    </ResumeContainer>
+    <ResumeCard>
+      {/* Resume Embed Viewer */}
+      <ResumeViewer src="/resume.pdf" type="application/pdf" />
+    </ResumeCard>
   );
 }

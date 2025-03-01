@@ -1,92 +1,72 @@
-"use client";
-
 /**
- * Landing
- * -------
- * - Full-page black→purple gradient background.
- * - All content (monogram, name, link cards) centered horizontally & vertically.
- * - Link cards have a grey/dark background with subtle hover effect.
- * - No external theme references—colors are defined inline.
+ * Landing.tsx
+ * -----------
+ * - Styled as a **Business Card**.
+ * - **Dark-to-light purple gradient** with soft shadows and rounded corners.
+ * - **Monogram & Name centered**.
+ * - **Contact Cards added** for email, phone, social links.
  */
 
-import styled from "styled-components";
-import Image from "next/image";
+'use client';
 
-const PageContainer = styled.div`
-  width: 100%;
-  min-height: 100vh; /* Ensures full viewport height */
-  height: auto; /* Expands beyond 100vh if needed */
+import styled from 'styled-components';
+import Image from 'next/image';
 
-  /* Black to purple gradient */
-  background: linear-gradient(
-    135deg,
-rgb(44, 44, 44) 0%,
-rgb(83, 22, 158) 100%
-  );
-
-  /* Center content horizontally and vertically */
+const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  /* Some padding so content doesn't touch screen edges */
-  padding: 2rem;
-`;
-
-const HeaderWrapper = styled.div`
+  width: 90vw;
+  height: 90vh;
+  background: linear-gradient(135deg, #4B0082, #9B59B6); /* Dark to light purple */
+  border-radius: 24px;
+  box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.4);
   text-align: center;
-  margin-bottom: 2rem;
+  color: ${({ theme }) => theme.colors.primary}; /* Egg-shell */
+  margin: auto;
+  margin-top: 5vh; /* Small gap from top */
+  position: relative;
 `;
 
-/* Name displayed beneath the monogram */
 const NameText = styled.h1`
-  margin-top: 1rem;
-  font-size: 1.5rem;
-  color: #eaeaea; /* Light grey text on dark background */
+  font-size: 2.5rem;
   font-weight: 700;
+  margin-top: 1.5rem;
+  color: ${({ theme }) => theme.colors.primary}; /* Egg-shell */
 `;
 
-/**
- * A flex container for the link cards. 
- * We can still wrap the cards if they don't fit on one line.
- */
+/** Contact Card Container */
 const CardRow = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1.5rem;
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
 `;
 
-/**
- * Each link card has a grey/dark background, 
- * a subtle shadow, and a small hover lift.
- */
+/** Individual Contact Card */
 const LinkCard = styled.a`
-  background: #2c2c2c;
+  background: rgba(44, 44, 44, 0.85); /* Semi-transparent dark grey */
   color: #eaeaea;
-  min-width: 180px; /* Allows cards to expand based on text length */
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  min-width: 160px;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-decoration: none;
   transition: transform 0.2s ease;
-  white-space: nowrap; /* Ensures text stays on a single line */
   text-align: center;
 
   &:hover {
     transform: translateY(-3px);
+    background: rgba(44, 44, 44, 1); /* Slightly darker on hover */
   }
 `;
 
-/** 
- * The icon at the top of each card. 
- * We fix width/height so it's nicely scaled.
- */
+/** Icons for Contact Cards */
 const Icon = styled(Image)`
   width: 32px;
   height: 32px;
@@ -94,126 +74,50 @@ const Icon = styled(Image)`
   margin-bottom: 0.5rem;
 `;
 
-/** 
- * The short link text (pseudonym) below the icon. 
- */
 const PseudoText = styled.span`
   font-size: 1rem;
   font-weight: 600;
 `;
 
-const PhoneNumberText = styled.span`
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #bdbdbd; /* Slightly lighter grey */
-`;
-
 export default function Landing() {
   return (
-    <PageContainer>
-      {/* Monogram + Name */}
-      <HeaderWrapper>
-        <Image
-          src="/monogram.png"
-          alt="Monogram Logo"
-          width={300}
-          height={300}
-          priority
-        />
-        <NameText>Brandon Dunegan</NameText>
-      </HeaderWrapper>
+    <CardContainer>
+      {/* Monogram & Name */}
+      <Image src="/monogram.png" alt="Monogram Logo" width={120} height={120} priority />
+      <NameText>Brandon Dunegan</NameText>
 
-      {/* Row of Link Cards */}
+      {/* Contact Links */}
       <CardRow>
-        
-                {/* Email */}
-                <LinkCard
-          href="mailto:bidunegan@gmail.com"
-          aria-label="Email"
-        >
-          <Icon
-            src="/icons/email.png"
-            alt="Mail Icon"
-            width={32}
-            height={32}
-          />
+        <LinkCard href="mailto:bidunegan@gmail.com" aria-label="Email">
+          <Icon src="/icons/email.png" alt="Mail Icon" width={32} height={32} />
           <PseudoText>bidunegan@gmail.com</PseudoText>
         </LinkCard>
 
-        {/* Telephone Card (links to the main page, but displays the number) */}
-        <LinkCard href="/" aria-label="Main Page">
-          <Icon
-            src="/icons/phone.png"
-            alt="Phone Icon"
-            width={32}
-            height={32}
-          />
+        <LinkCard href="/" aria-label="Phone">
+          <Icon src="/icons/phone.png" alt="Phone Icon" width={32} height={32} />
           <PseudoText>+1 (281)-614-9518</PseudoText>
         </LinkCard>
-        {/* Website */}
-        <LinkCard
-          href="https://bidunegan.com"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Website"
-        >
-          <Icon
-            src="/monogram.png"
-            alt="Website Icon"
-            width={60}
-            height={60}
-          />
+
+        <LinkCard href="https://bidunegan.com" target="_blank" rel="noreferrer" aria-label="Website">
+          <Icon src="/monogram.png" alt="Website Icon" width={60} height={60} />
           <PseudoText>Personal</PseudoText>
         </LinkCard>
 
-        {/* Alma Mater: Boston University */}
-        <LinkCard
-          href="https://www.bu.edu/"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Boston University"
-        >
-          <Icon
-            src="/icons/bu.png"
-            alt="Boston University Icon"
-            width={60}
-            height={60}
-          />
+        <LinkCard href="https://www.bu.edu/" target="_blank" rel="noreferrer" aria-label="Boston University">
+          <Icon src="/icons/bu.png" alt="Boston University Icon" width={60} height={60} />
           <PseudoText>Alma Mater</PseudoText>
         </LinkCard>
 
-        {/* LinkedIn */}
-        <LinkCard
-          href="https://www.linkedin.com/in/brandon-dunegan-bb935029b"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="LinkedIn"
-        >
-          <Icon
-            src="/icons/linkedin.png"
-            alt="LinkedIn Icon"
-            width={32}
-            height={32}
-          />
+        <LinkCard href="https://www.linkedin.com/in/brandon-dunegan-bb935029b" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+          <Icon src="/icons/linkedin.png" alt="LinkedIn Icon" width={32} height={32} />
           <PseudoText>LinkedIn</PseudoText>
         </LinkCard>
 
-        {/* GitHub */}
-        <LinkCard
-          href="https://github.com/BDunegan"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="GitHub"
-        >
-          <Icon
-            src="/icons/github.png"
-            alt="GitHub Icon"
-            width={32}
-            height={32}
-          />
-          <PseudoText>Github</PseudoText>
+        <LinkCard href="https://github.com/BDunegan" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <Icon src="/icons/github.png" alt="GitHub Icon" width={32} height={32} />
+          <PseudoText>GitHub</PseudoText>
         </LinkCard>
       </CardRow>
-    </PageContainer>
+    </CardContainer>
   );
 }
