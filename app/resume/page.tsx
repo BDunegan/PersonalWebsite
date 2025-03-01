@@ -9,6 +9,7 @@
 
 import styled from 'styled-components';
 import BeerList from "../components/BeerList";
+import TravelMap from "../components/TravelMap";
 
 const ResumeCard = styled.section`
   display: flex;
@@ -46,6 +47,7 @@ export default function Resume() {
       {/* Resume PDF View */}
       <ResumeViewer src="/resume.pdf" />
     </ResumeCard>
+    <TravelMap />
     <BeerList />
     </>
   );
