@@ -1,26 +1,31 @@
 /**
  * globalStyles.ts
  * ---------------
- * Global reset and universal black-to-purple gradient background.
- * Uses Google styling conventions for consistency.
+ * Provides a global reset and references the theme for backgrounds/colors.
  */
 
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   /* Reset & Box-Sizing */
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
 
-  /* Global body styling */
+  /* Global body styling references the theme for background & text color */
   html, body {
     width: 100%;
     height: 100%;
-    font-family: sans-serif;
-    background: linear-gradient(135deg, #000000 0%, #4B0082 100%); /* Black to deep purple */
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(
+      135deg,
+      ${({ theme }) => theme.colors.bkgDark},
+      ${({ theme }) => theme.colors.bkgLight}
+    );
     color: ${({ theme }) => theme.colors.text};
     overflow-x: hidden;
   }
@@ -34,15 +39,6 @@ const GlobalStyles = createGlobalStyle`
   a {
     text-decoration: none;
     color: inherit;
-  }
-
-  /* Headings and paragraphs spacing */
-  h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-  }
-
-  p {
-    margin: 0;
   }
 `;
 

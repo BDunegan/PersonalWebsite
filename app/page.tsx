@@ -30,9 +30,9 @@ const ContentWrapper = styled.section`
   width: 90%;
   max-width: 1200px;
   padding: 3rem;
-  background: linear-gradient(135deg, #8e44ad, #9B59B6); /* Lighter purple gradient */
+  background: linear-gradient(135deg,${({ theme }) => theme.colors.secondaryDark}, ${({ theme }) => theme.colors.secondaryLight}); /* Lighter purple gradient */
   border-radius: 16px;
-  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.4);
+  box-shadow: ${({ theme }) => theme.boxShadow}
   color: ${({ theme }) => theme.colors.primary}; /* Egg-shell text */
   text-align: center;
   margin-top: 2rem; /* Pushes content below Landing naturally */

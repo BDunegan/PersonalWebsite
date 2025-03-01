@@ -1,11 +1,9 @@
 /**
- * page.tsx (Contact Page)
- * -------------------
- * - Uses a **consistent font across all text fields**.
- * - **Adds a spacer** between the ContactTitle and the ContactForm for better structure.
- * - Retains the **Eggshell input fields** for a clean, high-contrast design.
- * - Keeps only **Phone & LinkedIn** in the contact row.
- * - Features structured spacing, shadows, and rounded corners for a polished look.
+ * contact/page.tsx
+ * ----------------
+ * - Uses a themed Content Card design.
+ * - Displays a contact form along with a CardRow that includes contact options.
+ * - Now includes an Instagram LinkCard along with Phone and LinkedIn.
  */
 
 'use client';
@@ -23,13 +21,17 @@ const ContactCard = styled.section`
   width: 90vw;
   max-width: 800px;
   padding: 3rem;
-  background: linear-gradient(135deg, #6a0dad, #a349a4); /* Deep Purple to Lighter Purple */
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.secondaryDark},
+    ${({ theme }) => theme.colors.secondaryLight}
+  );
   border-radius: 20px;
-  box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: ${({ theme }) => theme.boxShadow};
   text-align: center;
-  color: ${({ theme }) => theme.colors.primary}; /* Eggshell */
+  color: ${({ theme }) => theme.colors.primary};
   margin: 10vh auto;
-  font-family: 'Inter', sans-serif; /* Ensuring consistent font */
+  font-family: 'Inter', sans-serif;
 `;
 
 const ContactTitle = styled.h1`
@@ -39,7 +41,7 @@ const ContactTitle = styled.h1`
 `;
 
 const Spacer = styled.div`
-  height: 1.5rem; /* Space between title and form */
+  height: 1.5rem;
 `;
 
 const ContactSubtitle = styled.p`
@@ -63,10 +65,10 @@ const Input = styled.input`
   font-size: 1rem;
   border: none;
   border-radius: 8px;
-  color: #2c2c2c; /* Dark text */
-  background: #F0EAD6; /* Eggshell background */
-  box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.2); /* Soft inner shadow */
-  font-family: 'Inter', sans-serif; /* Consistent font */
+  color: ${({ theme }) => theme.colors.textInverse};
+  background: ${({ theme }) => theme.colors.primary};
+  box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.2);
+  font-family: 'Inter', sans-serif;
 `;
 
 const TextArea = styled.textarea`
@@ -75,17 +77,17 @@ const TextArea = styled.textarea`
   font-size: 1rem;
   border: none;
   border-radius: 8px;
-  color: #2c2c2c; /* Dark text */
-  background: #F0EAD6; /* Eggshell background */
-  box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.2); /* Soft inner shadow */
+  color: ${({ theme }) => theme.colors.textInverse};
+  background: ${({ theme }) => theme.colors.primary};
+  box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.2);
   resize: vertical;
   min-height: 120px;
-  font-family: 'Inter', sans-serif; /* Consistent font */
+  font-family: 'Inter', sans-serif;
 `;
 
 const SubmitButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.primary}; /* Eggshell */
-  color: ${({ theme }) => theme.colors.textInverse}; /* Dark text */
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.textInverse};
   border: none;
   padding: 1rem 2rem;
   font-size: 1rem;
@@ -94,14 +96,14 @@ const SubmitButton = styled.button`
   cursor: pointer;
   transition: background 0.3s ease;
   box-shadow: ${({ theme }) => theme.boxShadow};
-  font-family: 'Inter', sans-serif; /* Consistent font */
+  font-family: 'Inter', sans-serif;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.secondary}; /* Lighter Purple */
+    background-color: ${({ theme }) => theme.colors.secondaryLight};
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
-/** Contact Cards Row */
 const CardRow = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -110,9 +112,8 @@ const CardRow = styled.div`
   margin-top: 2rem;
 `;
 
-/** Individual Contact Card */
 const LinkCard = styled.a`
-  background: rgba(44, 44, 44, 0.85); /* Semi-transparent dark grey */
+  background: rgba(44, 44, 44, 0.85);
   color: #eaeaea;
   min-width: 160px;
   padding: 1rem 1.2rem;
@@ -124,15 +125,14 @@ const LinkCard = styled.a`
   text-decoration: none;
   transition: transform 0.2s ease;
   text-align: center;
-  font-family: 'Inter', sans-serif; /* Consistent font */
+  font-family: 'Inter', sans-serif;
 
   &:hover {
     transform: translateY(-3px);
-    background: rgba(44, 44, 44, 1); /* Slightly darker on hover */
+    background: rgba(44, 44, 44, 1);
   }
 `;
 
-/** Icons for Contact Cards */
 const Icon = styled(Image)`
   width: 32px;
   height: 32px;
@@ -143,7 +143,7 @@ const Icon = styled(Image)`
 const PseudoText = styled.span`
   font-size: 1rem;
   font-weight: 600;
-  font-family: 'Inter', sans-serif; /* Consistent font */
+  font-family: 'Inter', sans-serif;
 `;
 
 export default function Contact() {
@@ -162,7 +162,7 @@ export default function Contact() {
     }
 
     emailjs
-      .sendForm('service_p0j8na4', 'template_kyy6kam', formRef.current, 't3ClDFpRX8kqY_t6O')
+      .sendForm('service_p0j8na4', 'template_kyy6kam', formRef.current, 'YOUR_PUBLIC_KEY')
       .then(() => {
         setMessage('Message sent successfully!');
         formRef.current?.reset();
@@ -172,8 +172,11 @@ export default function Contact() {
 
   return (
     <ContactCard>
-      <ContactTitle>Let's get in touch!</ContactTitle>
-      <Spacer /> {/* Spacer added for better visual separation */}
+      <ContactTitle>Let's Get in Touch</ContactTitle>
+      <Spacer />
+      <ContactSubtitle>
+        Feel free to reach out using the form below or via my LinkedIn, phone, or Instagram.
+      </ContactSubtitle>
 
       {/* Contact Form */}
       <ContactForm ref={formRef} onSubmit={sendEmail}>
@@ -185,16 +188,32 @@ export default function Contact() {
 
       {message && <p style={{ marginTop: '1rem' }}>{message}</p>}
 
-      {/* Contact Cards (Only Phone & LinkedIn) */}
+      {/* Contact Cards */}
       <CardRow>
         <LinkCard href="/" aria-label="Phone">
           <Icon src="/icons/phone.png" alt="Phone Icon" width={32} height={32} />
           <PseudoText>+1 (281)-614-9518</PseudoText>
         </LinkCard>
 
-        <LinkCard href="https://www.linkedin.com/in/brandon-dunegan-bb935029b" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+        <LinkCard
+          href="https://www.linkedin.com/in/brandon-dunegan-bb935029b"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="LinkedIn"
+        >
           <Icon src="/icons/linkedin.png" alt="LinkedIn Icon" width={32} height={32} />
           <PseudoText>LinkedIn</PseudoText>
+        </LinkCard>
+
+        {/* New Instagram Card */}
+        <LinkCard
+          href="https://www.instagram.com/brandondunegan/"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Instagram"
+        >
+          <Icon src="/icons/instagram.png" alt="Instagram Icon" width={32} height={32} />
+          <PseudoText>Instagram</PseudoText>
         </LinkCard>
       </CardRow>
     </ContactCard>

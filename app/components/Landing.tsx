@@ -1,10 +1,10 @@
 /**
  * Landing.tsx
  * -----------
- * - Styled as a **Business Card**.
- * - **Dark-to-light purple gradient** with soft shadows and rounded corners.
- * - **Monogram & Name centered**.
- * - **Contact Cards added** for email, phone, social links.
+ * - Styled as a Business Card.
+ * - Uses theme-based gradient for background.
+ * - Centers the monogram, name, and contact cards.
+ * - Now includes an Instagram LinkCard in the CardRow.
  */
 
 'use client';
@@ -19,13 +19,17 @@ const CardContainer = styled.div`
   justify-content: center;
   width: 90vw;
   height: 90vh;
-  background: linear-gradient(135deg, #4B0082, #9B59B6); /* Dark to light purple */
-  border-radius: 24px;
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.secondaryDark},
+    ${({ theme }) => theme.colors.secondaryLight}
+  );
+  border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.4);
   text-align: center;
-  color: ${({ theme }) => theme.colors.primary}; /* Egg-shell */
+  color: ${({ theme }) => theme.colors.primary};
   margin: auto;
-  margin-top: 5vh; /* Small gap from top */
+  margin-top: 5vh;
   position: relative;
 `;
 
@@ -33,10 +37,9 @@ const NameText = styled.h1`
   font-size: 2.5rem;
   font-weight: 700;
   margin-top: 1.5rem;
-  color: ${({ theme }) => theme.colors.primary}; /* Egg-shell */
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
-/** Contact Card Container */
 const CardRow = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -45,9 +48,8 @@ const CardRow = styled.div`
   margin-top: 2rem;
 `;
 
-/** Individual Contact Card */
 const LinkCard = styled.a`
-  background: rgba(44, 44, 44, 0.85); /* Semi-transparent dark grey */
+  background: rgba(44, 44, 44, 0.85);
   color: #eaeaea;
   min-width: 160px;
   padding: 1rem 1.2rem;
@@ -62,11 +64,10 @@ const LinkCard = styled.a`
 
   &:hover {
     transform: translateY(-3px);
-    background: rgba(44, 44, 44, 1); /* Slightly darker on hover */
+    background: rgba(44, 44, 44, 1);
   }
 `;
 
-/** Icons for Contact Cards */
 const Icon = styled(Image)`
   width: 32px;
   height: 32px;
@@ -116,6 +117,12 @@ export default function Landing() {
         <LinkCard href="https://github.com/BDunegan" target="_blank" rel="noreferrer" aria-label="GitHub">
           <Icon src="/icons/github.png" alt="GitHub Icon" width={32} height={32} />
           <PseudoText>GitHub</PseudoText>
+        </LinkCard>
+
+        {/* New Instagram Card */}
+        <LinkCard href="https://www.instagram.com/brandondunegan/" target="_blank" rel="noreferrer" aria-label="Instagram">
+          <Icon src="/icons/instagram.png" alt="Instagram Icon" width={32} height={32} />
+          <PseudoText>Instagram</PseudoText>
         </LinkCard>
       </CardRow>
     </CardContainer>
